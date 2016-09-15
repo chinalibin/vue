@@ -1,0 +1,334 @@
+.index{
+    position: fixed;
+    top:0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    background: url("../img/1.jpg") no-repeat #000 center center;
+	background-size:cover;
+    z-index: 999;
+}
+.index span{
+    float: right;
+    margin-top: 20px;
+    margin-right: 5px;
+    padding:5px;
+    color: #fff;
+    background: #ccc;
+}
+.header{
+    overflow: hidden;
+    width: 100%;
+    height: 60px;
+    background: #6b6bf5;
+    position: relative;
+}
+.header .arrow{
+    position: relative;
+    top:10px;
+}
+.header .arrow .arr_in{
+    position: absolute;
+    border: 20px solid transparent;
+    border-right: 20px solid #fff;
+}
+.header .arrow .arr_in::after{
+    content: "";
+    display: block;
+    position: absolute;
+    top: -20px;
+    left: -13px;
+    border: 20px solid transparent;
+    border-right: 20px solid #6b6bf5;
+}
+.header h1{
+    line-height:60px;
+    text-indent: 6em;
+    color: #fff0e0;
+}
+.header .login{
+    position: absolute;
+    top:17px;
+    right: 20px;
+}
+.header .login a{
+    font-size: 20px;
+    color:#fff0e0;
+}
+/*****************search**************/
+.search{
+    margin:0 auto;
+    margin-top: 14px;
+    padding:0px 30px;
+    width: 60%;
+    border: 1px solid #fff;
+    border-radius: 50px;
+    box-sizing: border-box;
+    background: #fff;
+}
+.search input {
+
+    width: 85%;
+    padding: 8px 10px;
+    color: gray;
+    box-sizing: border-box;
+}
+.search span{
+    width: 15%;
+    box-sizing: border-box;
+    padding:15px 0;
+    text-align: center;
+    float: right;
+    background:#6b6bf5 ;
+}
+
+/*************** honm菜单 *****************/
+.homeType{
+    background: #fff;
+}
+.homeType li{
+    width: 20%;
+    float: left;
+    text-align: center;
+}
+.homeType li img{
+    width:60%;
+    display: block;
+    margin: 6px auto;
+
+}
+.homeType li span{
+    font-size:14px;
+    color: #5c5c67;
+}
+/**************Home_ad***************/
+.home_ad{
+    width: 100%;
+}
+.home_ad ul{
+    background: #fff;
+    margin: 6px;
+}
+.home_ad ul li{
+    float: left;
+    width: 33.3333333%;
+    text-align: center;
+    border-right: 1px solid #efefef;
+    box-sizing: border-box;
+}
+.home_ad ul li:last-child{
+    border-right: none;
+}
+.home_ad ul li h3{
+    color: #ff8f86;
+    padding: 5px 0;
+    font-size: 16px;
+}
+.home_ad ul li p{
+    color: #ffa8af;
+    font-size: 14px;
+    padding-bottom:5px;
+}
+.home_ad ul li img{
+    width: 50%;
+    padding-bottom:5px;
+}
+/***************home_list*******************/
+.home_list {
+    padding: 10px;
+    background: #fff;
+}
+.home_list li {
+    height: 90px;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+.home_list li img {
+    width: 140px;
+    float: left;
+}
+.home_list li .description {
+    margin-left: 145px;
+}
+.home_list li a {
+    text-decoration: none;
+}
+.home_list li h2 {
+    font-size: 18px;
+    color: gray;
+    height: 60px;
+    padding-top: 4px;
+}
+.home_list li p {
+    color: gray;
+    font-size: 12px;
+}
+.home_list li .price {
+    color: #06c1ae;
+    font-size: 16px;
+}
+.home_list li .sales {
+    float: right;
+    margin-top: 4px;
+}
+/************list页*************/
+.list-type{
+    width: 100%;
+}
+.list-type li{
+    width: 25%;
+    box-sizing: border-box;
+    border-right:1px solid #ccc;
+    height:40px;
+    line-height:40px;
+    text-align: center;
+    float: left;
+}
+.list-type li .arrow {
+    border: 6px solid transparent;
+    border-top: 6px solid #999;
+    position: relative;
+    top: 10px;
+}
+.load-more {
+    height: 30px;
+    line-height: 30px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    color: #06c1ae;
+    background: #fff;
+    padding-bottom: 5px;
+}
+/***************product*****************/
+.product {
+    background: #efefef;
+}
+.product .title {
+    position: relative;
+    color: #fff;
+}
+.product .title h1 {
+    position: absolute;
+    left: 10px;
+    bottom: 40px;
+}
+.product .title p {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+.product .price {
+    background: #fff;
+    height: 80px;
+    line-height: 80px;
+    padding-left: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.product .price .green {
+    color: #06c1ae;
+}
+.product .price .big {
+    font-size: 40px;
+}
+.product .price .btn {
+    background: orange;
+    padding: 0 20px;
+    text-align: center;
+    color: #fff;
+    float: right;
+    height: 40px;
+    line-height: 40px;
+    margin-top: 20px;
+    margin-right: 10px;
+}
+.product .sales {
+    background: #fff;
+    padding: 10px 0;
+}
+.product .sales li {
+    width: 50%;
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    text-indent: 10px;
+}
+.product .sales .info {
+    color: yellowgreen;
+}
+.product .part {
+    background: #fff;
+    margin-top: 10px;
+    padding: 10px;
+}
+.product .part .sub-title {
+    height: 50px;
+    line-height: 50px;
+    font-size: 30px;
+    border-bottom: 1px solid #ccc;
+}
+.product .part .container {
+    line-height: 30px;
+    padding: 10px 0;
+}
+.product .part .footer {
+    color: skyblue;
+    height: 40px;
+    line-height: 40px;
+    border-top: 1px solid #ccc;
+}
+.product .part .list h4 {
+    color: orange;
+    font-size: 26px;
+    line-height: 50px;
+}
+/**************banner******************/
+.carousel{
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    max-width: 560px;
+}
+.carousel ul{
+    list-style: none;
+    width: 100%;
+    height: 100%;
+}
+.carousel ul li{
+    position: absolute;
+    top: 0;
+    left:0;
+    width: 100%;
+    height: 100%;
+}
+.carousel ul li img{
+    width: 100%;
+    vertical-align: middle;
+}
+.carousel ol{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 160px;
+    height: 12px;
+    z-index: 2;
+    list-style: none;
+    -webkit-transform:translate3d(-50%,0,0);
+}
+.carousel ol li{
+    float: left;
+    width: 20px;
+    height: 10px;
+    background-color: white;
+    margin-right: 10px;
+    z-index: 2;
+    border-radius: 10px;
+    transition:all 0.3s ease 0s;
+}
+.carousel ol li.cur{
+    width: 40px;
+    background-color: red;
+}
+.carousel ol li:last-child{
+    margin: 0;
+}

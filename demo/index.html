@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.bxslider.css">
+    <title></title>
+</head>
+<body>
+<!--<div class="index" id="index">-->
+    <!--<span>3秒后进入</span>-->
+<!--</div>-->
+<div id="app">
+    <div class="header">
+        <span class="arrow" v-on:click="goBack">
+            <span class="arr_in"></span>
+        </span>
+        <div class="search clearfix" >
+            <input type="text" placeholder="美食搜索" v-model="searchVal" v-on:keyup.enter="goSearch">
+        </div>
+        <span class="login">
+            <a href="javascript:void(0)">登陆</a>
+        </span>
+    </div>
+    <component v-bind:is="view"  v-bind:sVla="sh"></component>
+</div>
+<script type="text/template" id="tpl_home">
+    <section>
+        <div class="carousel" id="carousel1">
+            <div class="loading">等待中</div>
+            <ul>
+                <li v-for="item in banner">
+                    <img v-bind:src="'img/banner/' + item.url" >
+                </li>
+            </ul>
+            <!--<ol>-->
+                <!--<li class="cur"></li>-->
+                <!--<li></li>-->
+                <!--<li></li>-->
+                <!--<li></li>-->
+                <!--<li></li>-->
+            <!--</ol>-->
+        </div>
+        <div class="home" id="home">
+            <ul class="homeType clearfix">
+                <li v-for="item in types">
+                    <a href="#/list/type/{{item.id}}">
+                        <img v-bind:src="'img/icon/'+ item.url" alt="">
+                        <span class="title">{{item.title}}</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="home_ad">
+                <ul class="clearfix">
+                    <li v-for="item in ad">
+                        <a href="#/product/{{item.id}}">
+                            <h3>{{item.title}}</h3>
+                            <p>{{item.description}}</p>
+                            <img v-bind:src="'img/icon/'+ item.url" alt="">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="home_list">
+                <ul>
+                    <li v-for="item in list ">
+                        <a href="#/product/{{item.id}}">
+                            <img v-bind:src="'img/list/' + item.img" alt="">
+                            <div class="description">
+                                <h2>{{item.title}}</h2>
+                                <p>
+                                    <span class="price">{{item.price | price}}</span>
+                                    <span class="orign-price">{{item.orignPrice | orignPrice}}</span>
+                                    <span class="sales">{{item.sales | sales}}</span>
+                                </p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</script>
+<script type="text/template" id="tpl_list">
+    <section class="list" id="list">
+        <ul class="list-type clearfix">
+            <li v-for="item in types" v-on:click="sortBy(item.key)">
+                <span>{{item.value}}</span>
+                <span class="arrow"></span>
+            </li>
+        </ul>
+        <ul class="home_list">
+            <li v-for="item in list | filterBy csearch">
+                <a href="#/product/{{item.id}}">
+                    <img v-bind:src="'img/list/' + item.img" alt="">
+                    <div class="description">
+                        <h2>{{item.title}}</h2>
+                        <p>
+                            <span class="price">{{item.price | price}}</span>
+                            <span class="orign-price">{{item.orignPrice | orignPrice}}</span>
+                            <span class="sales">{{item.sales | sales}}</span>
+                        </p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <div class="load-more" v-on:click="loadMore" v-show="other.length">
+            <span>查看其他 {{other.length}} 条团购</span>
+            <span class="arrow"><span class="arrow green"></span></span>
+        </div>
+    </section>
+</script>
+<script type="text/template" id="tpl_product">
+    <section class="product" id="product">
+        <div class="title">
+            <img v-bind:src="'img/item/' + data.src" alt="">
+            <h1>{{data.title}}</h1>
+            <p>{{data.description}}</p>
+        </div>
+        <div class="price">
+            <span class="green"><span class="big">{{data.price}}</span>元</span>
+            <span>{{data.orignPrice | orignPrice}}</span>
+            <span class="btn">立即购买</span>
+        </div>
+        <ul class="sales clearfix">
+            <li class="info">支持自动退货</li>
+            <li class="info">支持随时退货</li>
+            <li>{{data.sales | sales}}</li>
+        </ul>
+        <div class="part store">
+            <h3 class="sub-title">店家信息</h3>
+            <div class="container">
+                <p>{{data.storeName}}</p>
+                <p>{{data.storeAdress}}</p>
+            </div>
+            <div class="footer">查看 {{data.storeNum}} 家试用分店</div>
+        </div>
+        <div class="part buy">
+            <h3 class="sub-title">购买须知</h3>
+            <div class="container">
+                <ul class="list">
+                    <li>
+                        <h4>有效期</h4>
+                        <div>
+                            <p>{{data.validateTime}}</p>
+                        </div>
+                    </li>
+                    <li>
+                        <h4>使用时间</h4>
+                        <div>
+                            <p>{{data.useTime}}</p>
+                        </div>
+                    </li>
+                    <li>
+                        <h4>使用规则</h4>
+                        <div>
+                            <ul>
+                                <li v-for="item in data.rules">{{item}}</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</script>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/setTimer.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/jquery.bxslider.js"></script>
+<script type="text/javascript">
+    //用面向对象的方法写轮播图
+    function FingerCarousel(oId){
+        //得到大盒子
+        this.carousel = document.querySelector("#" + oId);
+        //所有lis
+        this.lis = document.querySelectorAll("#" + oId +" ul li");
+        //小圆点
+        this.xiaoyuandians = document.querySelectorAll("#" + oId +" ol li");
+        //ul
+        this.ul = document.querySelector("#" + oId +" ul");
+        //loading
+        this.loading = document.querySelector("#" + oId +" .loading");
+        //所有图片
+        this.images = document.querySelectorAll("#" + oId +" ul li img");
+
+        //备份this
+        var self = this;
+
+        //等所有图片加载好之后，然后才显示
+        for(var i = 0 , sum = 0 ; i < this.images.length ; i++){
+            this.images[i].onload = function(){
+                sum ++;
+                if(sum == self.images.length){
+                    self.ul.style.display = "block";
+                    self.loading.style.display = "none";
+                }
+            }
+        }
+
+        this.init();
+
+        //绑定3个监听：
+        this.carousel.addEventListener("touchstart",function(event){
+            self.touchstartHandler.call(self,event);
+        },false);
+        this.carousel.addEventListener("touchmove",function(event){
+            self.touchmoveHandler.call(self,event);
+        },false);
+        this.carousel.addEventListener("touchend",function(event){
+            self.touchendHandler.call(self,event);
+        },false);
+
+        window.addEventListener("resize",function(){
+            self.init.call(self);
+        },false);
+    }
+
+    //初始化
+    FingerCarousel.prototype.init = function(){
+        //宽度
+        this.w = parseFloat(getComputedStyle(this.carousel)["width"]);
+
+        //信号量
+        this.idx = 0;
+        //下一张
+        this.nextIdx = 1;
+        //上一张
+        this.prevIdx = this.lis.length - 1;
+
+        //设置高度
+        this.carousel.style.height = this.w * (300 / 560) + "px";
+
+        //第0张图复原
+        this.lis[0].style.transition = "none";
+        this.lis[0].style.webkitTransform = "translate3d(0px,0,0)";
+        //用px为单位，除0之外的所有li去猫腻位置
+        for(var i = 1 ; i < this.lis.length ; i++){
+            this.lis[i].style.transition = "none";
+            this.lis[i].style.webkitTransform = "translate3d(" + this.w + "px,0,0)";
+        }
+    }
+    //触摸开始
+    FingerCarousel.prototype.touchstartHandler = function(event){
+        //阻止默认事件
+        event.preventDefault();
+        //记录时间，这一时刻的时间戳
+        this.startTime = new Date();
+        //这根手指
+        var finger = event.touches[0];
+        //触摸开始的位置
+        this.startX = finger.clientX;
+        //去掉所有li的过渡
+        this.lis[this.idx].style.webkitTransition = "none";
+        this.lis[this.prevIdx].style.webkitTransition = "none";
+        this.lis[this.nextIdx].style.webkitTransition = "none";
+        //就位
+        this.lis[this.idx].style.webkitTransform = "translate3d(" + 0 + "px,0,0)";
+        this.lis[this.nextIdx].style.webkitTransform = "translate3d(" + this.w + "px,0,0)";
+        this.lis[this.prevIdx].style.webkitTransform = "translate3d(" + -this.w + "px,0,0)";
+
+    }
+    //触摸移动
+    FingerCarousel.prototype.touchmoveHandler = function(event){
+        //阻止默认事件
+        event.preventDefault();
+        //手指
+        var finger = event.touches[0];
+        //移动的距离
+        this.dx = finger.clientX - this.startX;
+        //一共有3张图片要跟着手指实时的移动
+        this.lis[this.idx].style.webkitTransform = "translate3d(" + (0 + this.dx) + "px,0,0)";
+        this.lis[this.nextIdx].style.webkitTransform = "translate3d(" + (this.w + this.dx) + "px,0,0)";
+        this.lis[this.prevIdx].style.webkitTransform = "translate3d(" + (-this.w + this.dx) + "px,0,0)";
+
+    }
+    //触摸结束
+    FingerCarousel.prototype.touchendHandler = function(event){
+        //阻止默认事件
+        event.preventDefault();
+        //看看这次用户抬手和上一次抬手的时间间隔
+        var endDuaring = new Date() - this.endTime;
+        //给这一次松手加上时间
+        this.endTime = new Date();
+        //看一下用户花了多少时间触摸
+        var touchDuaring = this.endTime - this.startTime;
+
+        //用户两次抬手的时间小于了300毫秒，说明上一次的动画还没有完成，此时不宜再来一个动画，变成干蹦。
+        if(endDuaring < 300){
+            var transitionString = "none";
+        }else{
+            var transitionString = "all 0.3s cubic-bezier(0.56, 1.24, 1, 0.98) 0s";
+        }
+
+        //判断此时是否滑动完成，用过渡来实现动画
+        if((this.dx >= this.w / 2) || (this.dx > 10 && touchDuaring < 200)){
+            //向右滑动成功
+            this.lis[this.idx].style.webkitTransition = transitionString;
+            this.lis[this.idx].style.webkitTransform = "translate3d(" + this.w + "px,0,0)";
+            this.lis[this.prevIdx].style.webkitTransition = transitionString;
+            this.lis[this.prevIdx].style.webkitTransform = "translate3d(" + 0 + "px,0,0)";
+
+            //信号量的改变
+            this.nextIdx = this.idx;
+            this.idx = this.prevIdx;
+            this.prevIdx--;
+            if(this.prevIdx < 0){
+                this.prevIdx = this.lis.length - 1;
+            }
+        }else if((this.dx <= -this.w / 2) || (this.dx < -10 && touchDuaring < 200)){
+            //向左滑动成功
+            this.lis[this.idx].style.webkitTransition = transitionString;
+            this.lis[this.idx].style.webkitTransform = "translate3d(" + -this.w + "px,0,0)";
+            this.lis[this.nextIdx].style.webkitTransition = transitionString;
+            this.lis[this.nextIdx].style.webkitTransform = "translate3d(" + 0 + "px,0,0)";
+
+            //信号量的改变
+            this.prevIdx = this.idx;
+            this.idx = this.nextIdx;
+            this.nextIdx++;
+            if(this.nextIdx > this.lis.length - 1){
+                this.nextIdx = 0;
+            }
+        }else{
+            //没有成功，弹回来
+            this.lis[this.idx].style.webkitTransition = "all 0.3s cubic-bezier(0.56, 1.24, 1, 0.98) 0s";
+            this.lis[this.idx].style.webkitTransform = "translate3d(" + 0 + "px,0,0)";
+            this.lis[this.nextIdx].style.webkitTransition = "all 0.3s cubic-bezier(0.56, 1.24, 1, 0.98) 0s";
+            this.lis[this.nextIdx].style.webkitTransform = "translate3d(" + this.w + "px,0,0)";
+            this.lis[this.prevIdx].style.webkitTransition = "all 0.3s cubic-bezier(0.56, 1.24, 1, 0.98) 0s";
+            this.lis[this.prevIdx].style.webkitTransform = "translate3d(" + -this.w + "px,0,0)";
+        }
+
+        //小圆点
+        for(var i = 0 ; i < this.xiaoyuandians.length ; i++){
+            this.xiaoyuandians[i].className = "";
+        }
+        this.xiaoyuandians[this.idx].className = "cur";
+    }
+
+    var f1 = new FingerCarousel("carousel1");
+</script>
+</body>
+</html>

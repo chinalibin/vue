@@ -1,0 +1,19 @@
+@charset "utf-8";
+/* CSS Document 零碳超市通用样式 */
+/*全局控制*/
+*{ padding:0; margin:0;}
+body{ font-family:"Arial"; font-size:12px;background: #e8efe9;}
+/*清除浏览器默认样式*/
+p,h1,h2,h3,h4,h5,h6,span,ul,li,dl,dt,dd,ol,li,input,img,a,span,iframe{ padding:0; margin:0; list-style:none; border:0; outline:none;}/* outline:none;轮廓*/
+i,b{ font-family:Arial, Helvetica, sans-serif; font-weight:normal; padding:0; margin:0;}
+/*文字字体为Tahoma，如果用户电脑里面没有这个字体，就使用Arial作为字体，以此类推，最后的Sans-serif一般是所有电脑都有的。这种写法主要是避免因为用户电脑里面没有某种字体而导致的显示不美观的情况/
+ font-weight:normal; 字体的粗细*/
+a{ text-decoration:none;}
+/*去掉超链接下划线*/
+a:hover{ text-decoration:none;}
+img{border:0;}
+.clearfix:after {
+    content: '';
+    display: block;
+    clear: both;
+}
