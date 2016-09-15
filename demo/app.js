@@ -1,8 +1,4 @@
-/**
- * 服务器
- * Author	张容铭
- * Date 	2015-12-01
- */
+
 
 var MINE_TYPES = {
 	'html': 	'text/html',
